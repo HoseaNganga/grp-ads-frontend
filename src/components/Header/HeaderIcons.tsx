@@ -20,13 +20,13 @@ export default function HeaderIcons() {
   };
 
   useEffect(() => {
-    const mediaQuery = window.matchMedia("(max-width: 400px)");
+    const mediaQuery = window.matchMedia("(max-width: 1023px)");
+
     const handleResize = () => {
       setIsSmallScreen(mediaQuery.matches);
     };
 
     handleResize();
-
     mediaQuery.addEventListener("change", handleResize);
 
     return () => mediaQuery.removeEventListener("change", handleResize);
