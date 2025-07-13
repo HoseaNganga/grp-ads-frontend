@@ -1,5 +1,5 @@
 import { create } from "zustand";
-import { persist } from "zustand/middleware";
+import { createJSONStorage, persist } from "zustand/middleware";
 import {
   UserLoginResponse,
   UserSignUpResponse,
@@ -122,6 +122,10 @@ export const useAuthStore = create<AuthState>()(
     }),
     {
       name: "auth-store",
+      storage:
+        typeof window !== "undefined"
+          ? createJSONStorage(() => localStorage)
+          : undefined,
     }
   )
 );
