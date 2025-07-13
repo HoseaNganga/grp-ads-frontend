@@ -16,7 +16,12 @@ import z from "zod";
 import { useAuthStore } from "@/store/authStore";
 import { useState } from "react";
 
-const SignupForm = () => {
+type SignupFormProps = {
+  step: 1 | 2;
+  setStep: (step: 1 | 2) => void;
+};
+
+const SignupForm = ({ step, setStep }: SignupFormProps) => {
   const router = useRouter();
   const { signup, isLoading } = useAuthStore();
 
@@ -33,6 +38,7 @@ const SignupForm = () => {
       selection: "",
       acceptTerms: false,
     },
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     validate: withZodSchema(registerUserSchema as z.ZodType<any, any>),
     validateOnMount: true,
     onSubmit: async (values) => {
@@ -51,136 +57,151 @@ const SignupForm = () => {
         await signup(payload);
         toast.success("Signup successful! Please verify your email.");
         router.push("/auth/verification");
-      } catch (err: any) {
-        toast.error(err.message || "Signup failed.");
+      } catch (err: unknown) {
+        if (err instanceof Error) {
+          toast.error(err.message);
+        } else {
+          toast.error("Signup failed.");
+        }
       }
     },
   });
 
-  const {
-    handleChange,
-    handleBlur,
-    handleSubmit,
-
-    values,
-    errors,
-    touched,
-  } = formik;
+  const { handleChange, handleBlur, handleSubmit, values, errors, touched } =
+    formik;
 
   return (
     <form
-      className="flex justify-center min-w-full h-auto "
       onSubmit={handleSubmit}
+      className="flex flex-col gap-4 w-full max-w-lg mx-auto  min-w-full min-h-screen px-4 py-10 sm:px-6 lg:px-8 bg-white overflow-y-auto "
     >
-      <div className="flex flex-col w-full items-center justify-center gap-y-3 min-w-full  ">
-        <Input
-          name="first_name"
-          error={errors.first_name}
-          touched={touched.first_name}
-          size="xl"
-          placeholder="First Name"
-          value={values.first_name}
-          onChange={handleChange}
-          onBlur={handleBlur}
-        />
-
-        <Input
-          name="last_name"
-          error={errors.last_name}
-          touched={touched.last_name}
-          size="xl"
-          placeholder="Last Name"
-          value={values.last_name}
-          onChange={handleChange}
-          onBlur={handleBlur}
-        />
-
-        <Input
-          name="email"
-          error={errors.email}
-          touched={touched.email}
-          size="xl"
-          placeholder="Email"
-          value={values.email}
-          onChange={handleChange}
-          onBlur={handleBlur}
-          autoComplete="off"
-        />
-
-        <div className="w-full">
-          <div
-            className={`flex gap-[16px] w-full h-[50px] rounded-[800px] border py-[12px] items-center pl-[12px] pr-[16px] ${
-              errors.phoneNumber && touchedPhone && "border-red-500"
-            }`}
-          >
-            <PhoneInput
-              defaultCountry="us"
-              name="phoneNumber"
-              value={values.phoneNumber}
-              placeholder="Phone Number"
-              onBlur={() => setTouchedPhone(true)}
-              onChange={(phone) => formik.setFieldValue("phoneNumber", phone)}
-              inputStyle={{
-                fontSize: "18px",
-                padding: "0 16px",
-                border: "none",
-                outline: "none",
-                width: "100%",
-              }}
-              style={{ width: "100%" }}
-            />
-          </div>
-          {errors.phoneNumber && touchedPhone && (
-            <div className="text-red-500 text-sm px-2 mt-2 text-center">
-              {errors.phoneNumber}
-            </div>
-          )}
-        </div>
-
-        <div className="w-full">
-          <label className="block text-sm font-medium mb-1">Interest</label>
-          <select
-            name="interest"
-            value={values.interest}
+      {step === 1 && (
+        <>
+          <Input
+            name="first_name"
+            placeholder="First Name"
+            value={values.first_name}
             onChange={handleChange}
             onBlur={handleBlur}
-            className={`w-full border py-[12px] px-[16px] rounded-[800px] text-base outline-none ${
-              errors.interest && touched.interest
-                ? "border-red-500"
-                : "border-gray-300"
-            }`}
-          >
-            <option value="">Select Interest</option>
-            {Object.keys(interestOptions).map((key) => (
-              <option key={key} value={key}>
-                {key}
-              </option>
-            ))}
-          </select>
+            error={errors.first_name}
+            touched={touched.first_name}
+            size="xl"
+          />
+          <Input
+            name="last_name"
+            placeholder="Last Name"
+            value={values.last_name}
+            onChange={handleChange}
+            onBlur={handleBlur}
+            error={errors.last_name}
+            touched={touched.last_name}
+            size="xl"
+          />
+          <Input
+            name="email"
+            placeholder="Email"
+            value={values.email}
+            onChange={handleChange}
+            onBlur={handleBlur}
+            error={errors.email}
+            touched={touched.email}
+            size="xl"
+          />
+          <Input
+            name="password"
+            placeholder="Password"
+            type="password"
+            value={values.password}
+            onChange={handleChange}
+            onBlur={handleBlur}
+            error={errors.password}
+            touched={touched.password}
+            size="xl"
+          />
 
-          {errors.interest && touched.interest && (
-            <p className="text-red-500 text-sm mt-1">{errors.interest}</p>
-          )}
-        </div>
-        {values.interest && (
-          <div className="w-full">
-            <label className="block text-sm font-medium mb-1">
+          <div>
+            <label className="block mb-2 text-sm font-medium">
+              Phone Number
+            </label>
+            <PhoneInput
+              defaultCountry="us"
+              value={values.phoneNumber}
+              onChange={(phone) => formik.setFieldValue("phoneNumber", phone)}
+              onBlur={() => setTouchedPhone(true)}
+              inputStyle={{
+                fontSize: "18px",
+
+                border: "1px solid #ccc",
+                width: "100%",
+                height: "45px",
+                borderRadius: "12px",
+                marginTop: "-5px",
+              }}
+            />
+            {errors.phoneNumber && touchedPhone && (
+              <p className="text-red-500 text-sm mt-1">{errors.phoneNumber}</p>
+            )}
+          </div>
+
+          <div>
+            <label className="block mb-2 text-sm font-medium">
+              Choose an Interest
+            </label>
+            <div className="flex flex-col gap-2">
+              {Object.keys(interestOptions).map((interest) => (
+                <label key={interest} className="flex items-center gap-2">
+                  <input
+                    type="radio"
+                    name="interest"
+                    value={interest}
+                    checked={values.interest === interest}
+                    onChange={handleChange}
+                  />
+                  {interest}
+                </label>
+              ))}
+            </div>
+            {errors.interest && touched.interest && (
+              <p className="text-red-500 text-sm mt-1">{errors.interest}</p>
+            )}
+          </div>
+
+          <Button
+            variant="primary"
+            type="button"
+            onClick={() => setStep(2)}
+            disabled={
+              !values.interest ||
+              !values.first_name ||
+              !values.email ||
+              !values.password
+            }
+            className="w-full"
+          >
+            Next
+          </Button>
+        </>
+      )}
+
+      {step === 2 && (
+        <>
+          <div>
+            <label className="block  text-sm font-bold ">
               {values.interest === "Cars"
                 ? "Favorite Car Type"
                 : values.interest === "Music"
                 ? "Favorite Music Genre"
                 : "Favorite Sport"}
             </label>
+            <span className="text-sm mb-1 ">
+              Tell us more about your interest
+            </span>
             <select
               name="selection"
               value={values.selection}
               onChange={handleChange}
               onBlur={handleBlur}
-              className={`w-full border py-[12px] px-[16px] rounded-[800px] text-base outline-none ${
-                errors.interest && touched.interest
-                  ? "border-red-500"
-                  : "border-gray-300"
-              }`}
+              className="w-full border p-3 rounded-lg"
             >
               <option value="">Select an option</option>
               {interestOptions[values.interest].map((option) => (
@@ -193,49 +214,40 @@ const SignupForm = () => {
               <p className="text-red-500 text-sm mt-1">{errors.selection}</p>
             )}
           </div>
-        )}
 
-        <Input
-          name="password"
-          error={errors.password}
-          touched={touched.password}
-          size="xl"
-          placeholder="Password"
-          type="password"
-          value={values.password}
-          onChange={handleChange}
-          onBlur={handleBlur}
-          autoComplete="on"
-        />
-        <div className="flex items-center gap-2 w-full mt-2">
-          <input
-            type="checkbox"
-            name="acceptTerms"
-            id="acceptTerms"
-            checked={values.acceptTerms}
-            onChange={handleChange}
-            onBlur={handleBlur}
-            className="w-5 h-5 rounded border border-gray-300"
-          />
-          <label htmlFor="acceptTerms" className="text-sm">
-            I agree to the terms and conditions
-          </label>
-        </div>
-        {errors.acceptTerms && touched.acceptTerms && (
-          <p className="text-red-500 text-sm mt-1">{errors.acceptTerms}</p>
-        )}
-
-        <Button
-          variant="primary"
-          type="submit"
-          isLoading={isLoading}
-          className="text-sm cursor-pointer  sm:text-sm md:text-md font-semibold w-full p-[16px] hover:bg-blue-600 hover:text-slate-100"
-          aria-label="Sign Up"
-          disabled={isLoading || !formik.isValid || !formik.dirty}
-        >
-          Sign Up
-        </Button>
-      </div>
+          <div className="flex items-center gap-2 mt-2">
+            <input
+              type="checkbox"
+              name="acceptTerms"
+              checked={values.acceptTerms}
+              onChange={handleChange}
+              onBlur={handleBlur}
+              className="w-4 h-4"
+            />
+            <label htmlFor="acceptTerms" className="text-sm">
+              I agree to the terms and conditions
+            </label>
+          </div>
+          {errors.acceptTerms && touched.acceptTerms && (
+            <p className="text-red-500 text-sm mt-1">{errors.acceptTerms}</p>
+          )}
+          <Button
+            variant="primary"
+            type="submit"
+            isLoading={isLoading}
+            disabled={
+              isLoading ||
+              !values.selection ||
+              !values.acceptTerms ||
+              !!errors.selection ||
+              !!errors.acceptTerms
+            }
+            className="w-full"
+          >
+            Sign Up
+          </Button>
+        </>
+      )}
     </form>
   );
 };

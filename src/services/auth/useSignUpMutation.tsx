@@ -52,7 +52,7 @@ export const UserSignUpMutation = () => {
   });
 };
 
-export const useLoginMutation = () => {
+export const useVerifyEmail = () => {
   const request = useCallback(async (data: VerifyEmailRequestPayloadType) => {
     try {
       const response = await noAuthInstance.post<UserVerifyEmailResponse>(
@@ -78,7 +78,7 @@ export const useLoginMutation = () => {
   });
 };
 
-export const useVerifyEmailMutation = () => {
+export const useLoginMutation = () => {
   const request = useCallback(async (data: loginRequestPayloadType) => {
     try {
       const response = await noAuthInstance.post<UserLoginResponse>(

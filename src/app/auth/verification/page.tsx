@@ -64,7 +64,7 @@ const ConfirmPassword = () => {
       const digitsArray = pastedData.split("");
       setCode(digitsArray);
     } else {
-      alert("Pasted text is not a 6-digit code");
+      toast.error("Pasted text is not a 6-digit code");
     }
   };
 
@@ -79,13 +79,17 @@ const ConfirmPassword = () => {
       await verifyEmail({ email: userEmail, code: codeStr });
       toast.success("Email verified successfully!");
       router.push("/auth/login");
-    } catch (err: any) {
-      toast.error(err.message);
+    } catch (err: unknown) {
+      if (err instanceof Error) {
+        toast.error(err.message);
+      } else {
+        toast.error("Something went wrong. Please try again.");
+      }
     }
   };
 
   return (
-    <div className="flex items-center justify-center ">
+    <div className="flex items-center justify-center w-full min-h-screen lg:h-auto  ">
       <div className=" flex flex-col items-center justify-center  ">
         <div className="flex flex-col px-3 md:px-0">
           <h1 className="font-bold text-2xl md:text-3xl mb-2 text-stone-800  ">
@@ -113,7 +117,7 @@ const ConfirmPassword = () => {
                   onPaste={handlePaste}
                   style={{
                     width: "50px",
-                    height: "50px",
+                    height: "45px",
                     textAlign: "center",
                     fontSize: "20px",
                     borderRadius: "7px",

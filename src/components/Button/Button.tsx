@@ -34,7 +34,7 @@ interface ButtonProps extends React.HTMLAttributes<HTMLButtonElement> {
   isLoading?: boolean;
   icon?: React.ReactNode;
   testId?: string;
-  onClick?: (e: React.FormEvent<HTMLButtonElement>) => any;
+  onClick?: (e: React.FormEvent<HTMLButtonElement>) => void | Promise<void>;
 }
 
 export const Button: FC<ButtonProps> = React.forwardRef<
