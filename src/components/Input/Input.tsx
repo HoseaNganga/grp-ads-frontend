@@ -38,7 +38,7 @@ type InputProps = React.HTMLAttributes<HTMLInputElement> & {
   variant?: keyof typeof variants;
   size?: keyof typeof sizes;
   autoComplete?: string;
-  otherProps?: any;
+  otherProps?: Record<string, unknown>;
 };
 
 export const Input: FC<InputProps> = ({
@@ -62,14 +62,12 @@ export const Input: FC<InputProps> = ({
 
   const ShowPasswordInfo = () => {
     return (
-      <>
-        <div
-          onClick={(e) => setShowPassword(!showPassword)}
-          className="cursor-pointer"
-        >
-          {showPassword ? <ClosedEyeIcon /> : <OpenEyeIcon />}
-        </div>
-      </>
+      <div
+        onClick={() => setShowPassword(!showPassword)}
+        className="cursor-pointer"
+      >
+        {showPassword ? <ClosedEyeIcon /> : <OpenEyeIcon />}
+      </div>
     );
   };
 

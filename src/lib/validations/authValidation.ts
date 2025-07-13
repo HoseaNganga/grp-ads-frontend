@@ -3,11 +3,6 @@ import { PhoneNumberUtil } from "google-libphonenumber";
 
 const phoneUtil = PhoneNumberUtil.getInstance();
 
-export const interestOptions = {
-  Cars: ["Convertible", "Sedan", "SUV", "Other"],
-  Music: ["Folk", "Jazz", "Punk", "Other"],
-  Sport: ["Baseball", "Basketball", "Football", "Ice Hockey", "Other"],
-};
 const isPhoneValid = (phone?: string) => {
   if (!phone) return false;
 
@@ -100,3 +95,9 @@ export type LoginFormType = z.infer<typeof loginSchema>;
 
 export type RegisterUserFormType = z.infer<typeof registerUserSchema>;
 export type EmailVerificationFormType = z.infer<typeof emailVerificationSchema>;
+
+export const interestOptions: Record<string, string[]> = {
+  Music: ["Pop", "Rock", "Hip Hop", "Jazz", "Classical"],
+  Cars: ["Sedan", "SUV", "Truck", "Coupe", "Electric"],
+  Sports: ["Football", "Basketball", "Tennis", "Running", "Swimming"],
+};

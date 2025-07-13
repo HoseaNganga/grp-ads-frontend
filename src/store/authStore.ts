@@ -3,10 +3,12 @@ import { persist } from "zustand/middleware";
 import {
   UserLoginResponse,
   UserSignUpResponse,
+  UserVerifyEmailResponse,
 } from "@/lib/models/authResponseModel";
 import {
   UserRequestPayloadType,
   loginRequestPayloadType,
+  VerifyEmailRequestPayloadType,
 } from "@/services/auth/useSignUpMutation";
 import { noAuthInstance } from "@/services/noAuthInstance";
 import { extractAxiosErrorMessage } from "@/services/error";
@@ -22,9 +24,13 @@ type AuthState = {
   } | null;
   isLoading: boolean;
   error: string | null;
-  response: UserSignUpResponse | null;
+
+  signupResponse: UserSignUpResponse | null;
+  verifyEmailResponse: UserVerifyEmailResponse | null;
+
   signup: (payload: UserRequestPayloadType) => Promise<void>;
   login: (payload: loginRequestPayloadType) => Promise<void>;
+  verifyEmail: (payload: VerifyEmailRequestPayloadType) => Promise<void>;
   logout: () => void;
 };
 
@@ -36,7 +42,9 @@ export const useAuthStore = create<AuthState>()(
       user: null,
       isLoading: false,
       error: null,
-      response: null,
+
+      signupResponse: null,
+      verifyEmailResponse: null,
 
       signup: async (payload) => {
         set({ isLoading: true, error: null });
@@ -47,10 +55,31 @@ export const useAuthStore = create<AuthState>()(
           );
           set({
             userEmail: payload.email,
-            response: res.data,
+            signupResponse: res.data,
           });
         } catch (err) {
           const message = extractAxiosErrorMessage(err, "Signup failed");
+          set({ error: message });
+          throw new Error(message);
+        } finally {
+          set({ isLoading: false });
+        }
+      },
+
+      verifyEmail: async (payload) => {
+        set({ isLoading: true, error: null });
+
+        try {
+          const res = await noAuthInstance.post<UserVerifyEmailResponse>(
+            "/auth/verify-code",
+            payload
+          );
+          set({ verifyEmailResponse: res.data });
+        } catch (err) {
+          const message = extractAxiosErrorMessage(
+            err,
+            "Email Verification Failed!"
+          );
           set({ error: message });
           throw new Error(message);
         } finally {
@@ -86,7 +115,8 @@ export const useAuthStore = create<AuthState>()(
           user: null,
           userEmail: null,
           error: null,
-          response: null,
+          signupResponse: null,
+          verifyEmailResponse: null,
         });
       },
     }),

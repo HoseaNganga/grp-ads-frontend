@@ -21,7 +21,8 @@ export default function Home() {
         </div>
         <div className="text-center pb-4">
           <p className="text-sm sm:text-sm md:text-md lg:text-lg text-stone-500 font-medium  ">
-            Are you creating a new workspace or you are joining as a new user?
+            Welcome! We will guide you through the next steps to get you up and
+            running.
           </p>
         </div>
 

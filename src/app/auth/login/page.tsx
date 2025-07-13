@@ -6,11 +6,7 @@ import AuthBody from "@/layouts/AuthCandidates/AuthBody";
 
 const page = () => {
   return (
-    <AuthBody
-      title="Login"
-      description="Start your journey to a successful tech career today"
-      backPath="/"
-    >
+    <AuthBody title="Login" description="Start your journey today" backPath="/">
       <SignInForm />
       <SigninSocialMedia />
     </AuthBody>

@@ -1,29 +1,37 @@
 import { Button } from "@/components/Button";
 import { Input } from "@/components/Input";
-import { loginSchema } from "@/lib/validations/authValidation";
+import { LoginFormType, loginSchema } from "@/lib/validations/authValidation";
 import { useAuthStore } from "@/store/authStore";
 import { useFormik } from "formik";
 import { withZodSchema } from "formik-validator-zod";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
+import z from "zod";
 
 const SignInForm = () => {
   const router = useRouter();
   const { login, isLoading } = useAuthStore();
-  const formik = useFormik({
+
+  const formik = useFormik<LoginFormType>({
     initialValues: {
       email: "",
       password: "",
     },
-    validate: withZodSchema(loginSchema as z.ZodType<any, any>),
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    validate: withZodSchema(loginSchema as z.ZodType<any, any, any>),
+
     onSubmit: async (values) => {
       try {
         await login(values);
         toast.success("Login successful!");
         router.push("/home");
-      } catch (err: any) {
-        toast.error(err.message || "Login failed");
+      } catch (err: unknown) {
+        if (err instanceof Error) {
+          toast.error(err.message);
+        } else {
+          toast.error("Login failed");
+        }
       }
     },
   });
