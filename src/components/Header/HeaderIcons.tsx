@@ -38,6 +38,7 @@ export default function HeaderIcons() {
         <div onClick={toggleMenu}>
           <svg
             className="w-[20px] h-[20px] lg:hidden cursor-pointer"
+            data-testid="menu-toggle"
             viewBox="0 0 24 24"
             fill="#000"
             stroke="black"
@@ -112,7 +113,10 @@ export default function HeaderIcons() {
                     {user?.first_name?.charAt(0).toUpperCase() || "U"}
                   </div>
 
-                  <span className="text-sm font-medium text-gray-700">
+                  <span
+                    className="text-sm font-medium text-gray-700"
+                    data-testid="user-greeting"
+                  >
                     Hello {user?.first_name || "User"}
                   </span>
                 </div>
