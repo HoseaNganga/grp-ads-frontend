@@ -6,7 +6,7 @@ import axios, {
 } from "axios";
 
 export const noAuthInstance: AxiosInstance = axios.create({
-  baseURL: process.env.NEXT_PUBLIC_INGENIOUS_BASE_URL as string,
+  baseURL: process.env.NEXT_PUBLIC_BASE_URL as string,
 });
 
 noAuthInstance.interceptors.request.use(

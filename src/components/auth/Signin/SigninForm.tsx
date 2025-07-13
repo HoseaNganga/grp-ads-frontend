@@ -71,6 +71,7 @@ const SignInForm = () => {
           value={values.password}
           onChange={handleChange}
           onBlur={handleBlur}
+          autoComplete="on"
         />
 
         <Link href={""} className="self-start">

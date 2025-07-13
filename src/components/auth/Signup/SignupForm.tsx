@@ -117,6 +117,7 @@ const SignupForm = ({ step, setStep }: SignupFormProps) => {
             error={errors.password}
             touched={touched.password}
             size="xl"
+            autoComplete="on"
           />
 
           <div>
