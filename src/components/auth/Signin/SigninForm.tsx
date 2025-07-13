@@ -55,7 +55,7 @@ const SignInForm = () => {
           size="md"
           placeholder="Email"
           name="email"
-          className="min-w-full"
+          className="min-w-full mb-2 "
           value={values.email}
           onChange={handleChange}
           onBlur={handleBlur}
