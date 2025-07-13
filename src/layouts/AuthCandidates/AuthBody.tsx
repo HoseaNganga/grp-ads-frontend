@@ -46,7 +46,7 @@ const AuthBody = ({
         <h1 className="text-2xl font-semibold mb-2">{title}</h1>
         <p className="text-sm text-stone-500 mb-4">{description}</p>
 
-        <div className="overflow-y-auto sm:h-[calc(100vh-150px)] h-[calc(100vh-50px)] px-1 sm:px-2 pb-10">
+        <div className=" overflow-y-auto sm:h-[calc(100vh-150px)] h-[calc(100vh-50px)] px-1 sm:px-2 pb-10">
           {children}
         </div>
       </div>

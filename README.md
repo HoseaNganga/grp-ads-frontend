@@ -5,28 +5,28 @@
 <h5>SignUp Page</h5>
 
 <div align='center'>
-<img src='/grp-ads/src/assets/signup.png' width="200" height="200"  />
+<img src='src/assets/signup.png' width="200" height="200"  />
 
 </div>
 <br/>
 <h5>Verification Page</h5>
 
 <div align='center'>
-<img src='/grp-ads/src/assets/verification.png' width="200" height="200"  />
+<img src='src/assets/verification.png' width="200" height="200"  />
 
 </div>
 <br/>
 <h5>Login Page</h5>
 
 <div align='center'>
-<img src='/grp-ads/src/assets/loginpage.png' width="200" height="200"  />
+<img src='src/assets/loginpage.png' width="200" height="200"  />
 
 </div>
 <br/>
 <h5>Dashboard Page</h5>
 
 <div align='center'>
-<img src='/grp-ads/src/assets/dashboard.png' width="200" height="200"  />
+<img src='src/assets/dashboard.png' width="200" height="200"  />
 
 </div>
 <br/>
@@ -34,8 +34,6 @@
 # GrpAds(Next)
 
 Welcome to the GrpAds Frontend — a fully responsive, production-ready web application built using Next.js, TypeScript, and Tailwind CSS, integrated with a secure Express.js + MongoDB backend. It supports full authentication flow, including signup, email verification, login, dashboard access, and logout. The app is thoroughly tested using Jest and React Testing Library, and deployed using Firebase Hosting with GitHub Actions CI/CD.
-
-
 
 ---
 
@@ -54,8 +52,6 @@ Welcome to the GrpAds Frontend — a fully responsive, production-ready web appl
   - State Management: Zustand Store: A small, fast and scalable bearbones state-management solution using simplified flux principles.
   - Email Service: Nodemailer
   - Authentication: JWT (JSON Web Tokens)
-
-
 
 ## 🚀 Features  
 
@@ -96,7 +92,7 @@ Welcome to the GrpAds Frontend — a fully responsive, production-ready web appl
 
 ## Test
 
-<img src="/grp-ads/src/assets/test.png" width="400"/>
+<img src="src/assets/test.png" width="400"/>
 <br/>
 
 This project uses Jest unit testing in Angular.
@@ -111,7 +107,7 @@ This project uses Jest unit testing in Angular.
 
 Automate project build, test, and deployment pipeline
 
-<img src="/grp-ads/src/assets/deployments.png" width="600"/>
+<img src="src/assets/deployments.png" width="600"/>
 This project is automatically deployed to Firebase Hosting using GitHub Actions.
 
 ✅ GitHub Workflows:

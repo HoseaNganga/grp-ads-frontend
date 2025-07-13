@@ -72,7 +72,7 @@ export const Input: FC<InputProps> = ({
   };
 
   return (
-    <div className={cn("flex flex-col items-center mb-1  w-full", className)}>
+    <div className={cn("flex flex-col items-center  w-full", className)}>
       {label && (
         <label
           htmlFor={id}

@@ -73,7 +73,7 @@ const SignupForm = ({ step, setStep }: SignupFormProps) => {
   return (
     <form
       onSubmit={handleSubmit}
-      className="flex flex-col gap-4 w-full max-w-lg mx-auto  min-w-full min-h-screen px-4 py-10 sm:px-6 lg:px-8 bg-white overflow-y-auto "
+      className="flex flex-col gap-4 w-full mx-auto w-full  px-4 py-10 sm:px-6 lg:px-8 bg-white   "
     >
       {step === 1 && (
         <>
@@ -85,7 +85,7 @@ const SignupForm = ({ step, setStep }: SignupFormProps) => {
             onBlur={handleBlur}
             error={errors.first_name}
             touched={touched.first_name}
-            size="xl"
+            size="md"
           />
           <Input
             name="last_name"
@@ -95,7 +95,7 @@ const SignupForm = ({ step, setStep }: SignupFormProps) => {
             onBlur={handleBlur}
             error={errors.last_name}
             touched={touched.last_name}
-            size="xl"
+            size="md"
           />
           <Input
             name="email"
@@ -105,7 +105,7 @@ const SignupForm = ({ step, setStep }: SignupFormProps) => {
             onBlur={handleBlur}
             error={errors.email}
             touched={touched.email}
-            size="xl"
+            size="md"
           />
           <Input
             name="password"
@@ -116,7 +116,7 @@ const SignupForm = ({ step, setStep }: SignupFormProps) => {
             onBlur={handleBlur}
             error={errors.password}
             touched={touched.password}
-            size="xl"
+            size="md"
             autoComplete="on"
           />
 
@@ -134,9 +134,10 @@ const SignupForm = ({ step, setStep }: SignupFormProps) => {
 
                 border: "1px solid #ccc",
                 width: "100%",
-                height: "45px",
-                borderRadius: "12px",
-                marginTop: "-5px",
+                height: "37px",
+                borderRadius: "5px",
+                marginTop: "0px",
+                marginInline: "5px",
               }}
             />
             {errors.phoneNumber && touchedPhone && (
@@ -172,10 +173,13 @@ const SignupForm = ({ step, setStep }: SignupFormProps) => {
             type="button"
             onClick={() => setStep(2)}
             disabled={
-              !values.interest ||
               !values.first_name ||
+              !values.last_name ||
               !values.email ||
-              !values.password
+              !values.password ||
+              !values.phoneNumber ||
+              !!errors.phoneNumber ||
+              !values.interest
             }
             className="w-full"
           >
